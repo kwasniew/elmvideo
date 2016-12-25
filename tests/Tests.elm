@@ -54,7 +54,7 @@ all =
                         Expect.equal (pageToPath Search) "/search"
                 , test "Landing" <|
                     \() ->
-                        Expect.equal (pageToPath Landing) ""
+                        Expect.equal (pageToPath Landing) "/"
                 ]
             ]
         ]
