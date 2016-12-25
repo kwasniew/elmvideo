@@ -1,6 +1,8 @@
 module App exposing (..)
 
-import Html exposing (Html, text, div, img)
+import Html exposing (Html, text, div, img, h1, input, a)
+import Html.Attributes exposing (class, placeholder, type_)
+import Html.Events exposing (onSubmit, onInput, onClick)
 import Navigation exposing (Location)
 import UrlParser exposing ((</>), s, int, string, parsePath)
 
@@ -34,6 +36,8 @@ initModel page =
 type Msg
     = NoOp
     | ChangePage Page
+    | Navigate Page
+    | SearchTerm String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -43,8 +47,20 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ text (toString model.page)
+    div [ class "app" ]
+        [ landing ]
+
+
+landing : Html Msg
+landing =
+    div [ class "landing" ]
+        [ h1 [] [ text "elmvideo" ]
+        , Html.form
+            [ onSubmit (Navigate Search)
+            ]
+            [ input [ type_ "text", placeholder "Search", onInput SearchTerm ] []
+            ]
+        , a [ onClick (Navigate Search) ] [ text "Browse All" ]
         ]
 
 
