@@ -4,6 +4,7 @@ import Test exposing (..)
 import Expect
 import App exposing (..)
 import Navigation exposing (Location)
+import Types exposing (..)
 
 
 location : String -> Location

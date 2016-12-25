@@ -5,29 +5,9 @@ import Html.Attributes exposing (class, placeholder, type_, value, src)
 import Html.Events exposing (onSubmit, onInput, onClick)
 import Navigation exposing (Location, newUrl)
 import UrlParser exposing ((</>), s, int, string, parsePath)
-
-
-type alias Model =
-    { page : Page
-    , searchTerm : String
-    , movies : List Movie
-    }
-
-
-type alias Movie =
-    { title : String
-    , year : String
-    , description : String
-    , poster : String
-    , id : String
-    , trailer : String
-    }
-
-
-type Page
-    = Landing
-    | Search
-    | Details String
+import Types exposing (..)
+import Data
+import Decoder exposing (decodeMovies)
 
 
 init : Location -> ( Model, Cmd Msg )
@@ -43,7 +23,7 @@ initModel : Page -> Model
 initModel page =
     { page = page
     , searchTerm = ""
-    , movies = []
+    , movies = decodeMovies Data.json
     }
 
 
