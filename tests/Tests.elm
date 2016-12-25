@@ -30,16 +30,31 @@ page pathname =
 all : Test
 all =
     describe "Elmflix"
-        [ test "Navigation: Details" <|
-            \() ->
-                Expect.equal (page "/details/1234") (Details "1234")
-        , test "Navigation: Search" <|
-            \() ->
-                Expect.equal (page "/search") Search
-        , test "Navigation: Landing" <|
-            \() ->
-                Expect.equal (page "/") Landing
-        , test "Navigation: default" <|
-            \() ->
-                Expect.equal (page "/gibberish") Landing
+        [ describe "Navigation"
+            [ describe "Path to Page"
+                [ test "Details" <|
+                    \() ->
+                        Expect.equal (page "/details/1234") (Details "1234")
+                , test "Search" <|
+                    \() ->
+                        Expect.equal (page "/search") Search
+                , test "Landing" <|
+                    \() ->
+                        Expect.equal (page "/") Landing
+                , test "Default" <|
+                    \() ->
+                        Expect.equal (page "/gibberish") Landing
+                ]
+            , describe "Page to Path"
+                [ test "Details" <|
+                    \() ->
+                        Expect.equal (pageToPath (Details "1234")) "/details/1234"
+                , test "Search" <|
+                    \() ->
+                        Expect.equal (pageToPath Search) "/search"
+                , test "Landing" <|
+                    \() ->
+                        Expect.equal (pageToPath Landing) ""
+                ]
+            ]
         ]
