@@ -42,8 +42,8 @@ update msg model =
         ChangePage page ->
             ( { model | page = page }, Cmd.none )
 
-        _ ->
-            ( model, Cmd.none )
+        SearchTerm txt ->
+            ( { model | searchTerm = txt }, Cmd.none )
 
 
 view : Model -> Html Msg
