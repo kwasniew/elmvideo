@@ -1,6 +1,7 @@
 module Tests exposing (..)
 
 import Test exposing (..)
+import Fuzz exposing (..)
 import Expect
 import App exposing (..)
 import Navigation exposing (Location)
@@ -87,5 +88,25 @@ all =
                               , trailer = "NTzycsqxYJ0"
                               }
                             ]
+            , fuzz (list int) "sucessfully decodes one movie for each item in the JSON" <|
+                \ids ->
+                    let
+                        jsonFromId id =
+                            """ {
+                                "title": "title",
+                                "year": "2000",
+                                "description": "desc",
+                                "poster": "poster.jpg",
+                                "imdbID":" """ ++ toString id ++ """ ",
+                                "trailer": "NTzycsqxYJ0"
+                            } """
+
+                        jsonItems =
+                            String.join ", " (List.map jsonFromId ids)
+
+                        json =
+                            """ {"shows": [""" ++ jsonItems ++ """]} """
+                    in
+                        Expect.equal (List.length (decodeMovies json)) (List.length ids)
             ]
         ]
