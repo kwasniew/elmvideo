@@ -35,8 +35,4 @@ decodeMovies json =
             searchResults
 
         Err err ->
-            let
-                err1 =
-                    Debug.log "error" err
-            in
-                []
+            []

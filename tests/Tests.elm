@@ -5,6 +5,7 @@ import Expect
 import App exposing (..)
 import Navigation exposing (Location)
 import Types exposing (..)
+import Decoder exposing (..)
 
 
 location : String -> Location
@@ -57,5 +58,34 @@ all =
                     \() ->
                         Expect.equal (pageToPath Landing) "/"
                 ]
+            ]
+        , describe "Movie List Decoder"
+            [ test "results in empty list on parsing error" <|
+                \() ->
+                    let
+                        json =
+                            """{"gibberish": []}"""
+                    in
+                        Expect.equal (decodeMovies json) []
+            , test "successfully decodes a valid json" <|
+                \() ->
+                    """ {"shows": [{
+                            "title": "title",
+                            "year": "2000",
+                            "description": "desc",
+                            "poster": "poster.jpg",
+                            "imdbID": "tt1856010",
+                            "trailer": "NTzycsqxYJ0"
+                        }] }"""
+                        |> decodeMovies
+                        |> Expect.equal
+                            [ { title = "title"
+                              , year = "2000"
+                              , description = "desc"
+                              , poster = "poster.jpg"
+                              , id = "tt1856010"
+                              , trailer = "NTzycsqxYJ0"
+                              }
+                            ]
             ]
         ]
