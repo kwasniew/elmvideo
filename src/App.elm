@@ -3,7 +3,7 @@ module App exposing (..)
 import Html exposing (Html, text, div, img, h1, input, a)
 import Html.Attributes exposing (class, placeholder, type_)
 import Html.Events exposing (onSubmit, onInput, onClick)
-import Navigation exposing (Location)
+import Navigation exposing (Location, newUrl)
 import UrlParser exposing ((</>), s, int, string, parsePath)
 
 
@@ -34,15 +34,19 @@ initModel page =
 
 
 type Msg
-    = NoOp
-    | ChangePage Page
+    = ChangePage Page
     | Navigate Page
     | SearchTerm String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        Navigate page ->
+            ( model, newUrl <| pageToPath page )
+
+        _ ->
+            ( model, Cmd.none )
 
 
 view : Model -> Html Msg
@@ -74,6 +78,19 @@ locationToMsg location =
     location
         |> pathToPage
         |> ChangePage
+
+
+pageToPath : Page -> String
+pageToPath page =
+    case page of
+        Landing ->
+            ""
+
+        Search ->
+            "/search"
+
+        Details id ->
+            "/details/" ++ id
 
 
 pathToPage : Location -> Page
