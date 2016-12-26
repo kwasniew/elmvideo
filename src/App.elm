@@ -1,7 +1,7 @@
 module App exposing (..)
 
-import Html exposing (Html, text, div, img, h1, h3, h4, input, a, header, p)
-import Html.Attributes exposing (class, placeholder, type_, value, src)
+import Html exposing (Html, text, div, img, h1, h2, h3, h4, input, a, header, p, section, iframe)
+import Html.Attributes exposing (class, placeholder, type_, value, src, attribute)
 import Html.Events exposing (onSubmit, onInput, onClick)
 import Navigation exposing (Location, newUrl)
 import UrlParser exposing ((</>), s, int, string, parsePath)
@@ -57,7 +57,7 @@ view model =
                 search model
 
             Details id ->
-                details
+                details (List.filter (\movie -> movie.id == id) model.movies |> List.head)
         ]
 
 
@@ -107,9 +107,51 @@ search model =
         ]
 
 
-details : Html Msg
-details =
-    div [] []
+details : Maybe Movie -> Html Msg
+details movie =
+    case movie of
+        Just movie ->
+            div [ class "details" ]
+                [ header []
+                    [ header []
+                        [ elmvideo
+                        , h2 [ onClick (Navigate Search) ] [ text "Back" ]
+                        ]
+                    ]
+                , section []
+                    [ h1 [] [ text movie.title ]
+                    , h2 [] [ text movie.year ]
+                    , ratingView movie.rating
+                    , img [ src ("/public/img/posters/" ++ movie.poster) ] []
+                    , p [] [ text movie.description ]
+                    ]
+                , div []
+                    [ iframe
+                        [ src ("https://www.youtube-nocookie.com/embed/" ++ movie.trailer ++ "?rel=0&amp;controls=0&amp;showinfo=0")
+                        , attribute "frameBorder" "0"
+                        , attribute "allowFullScreen" ""
+                        ]
+                        []
+                    ]
+                ]
+
+        Nothing ->
+            div [] []
+
+
+ratingView : Maybe (Result String String) -> Html Msg
+ratingView rating =
+    case rating of
+        Just rating ->
+            case rating of
+                Ok value ->
+                    h3 [] [ text value ]
+
+                Err error ->
+                    div [] [ text error ]
+
+        Nothing ->
+            img [ src "/public/img/loading.png" ] []
 
 
 subscriptions : Model -> Sub Msg

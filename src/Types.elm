@@ -15,6 +15,7 @@ type alias Movie =
     , poster : String
     , id : String
     , trailer : String
+    , rating : Maybe (Result String String)
     }
 
 

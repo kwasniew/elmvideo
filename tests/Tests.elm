@@ -86,6 +86,7 @@ all =
                               , poster = "poster.jpg"
                               , id = "tt1856010"
                               , trailer = "NTzycsqxYJ0"
+                              , rating = Nothing
                               }
                             ]
             , fuzz (list int) "sucessfully decodes one movie for each item in the JSON" <|
