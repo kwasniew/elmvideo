@@ -25,3 +25,10 @@ type Page
     = Landing
     | Search
     | Details String
+
+
+type Msg
+    = ChangePage Page
+    | Navigate Page
+    | SearchTerm String
+    | RatingFetched String (Result Http.Error String)
