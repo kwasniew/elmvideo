@@ -1,7 +1,7 @@
 module App exposing (..)
 
-import Html exposing (Html, text, div, img, h1, h2, h3, h4, input, a, header, p, section, iframe)
-import Html.Attributes exposing (class, placeholder, type_, value, src, attribute)
+import Html exposing (Html, div)
+import Html.Attributes exposing (class)
 import Navigation exposing (Location, newUrl)
 import UrlParser exposing ((</>), s, int, string, parsePath)
 import Types exposing (..)
