@@ -1,4 +1,4 @@
-# 'A Complete Intro to React' ported to elm
+# 'A Complete Intro to React' ported to Elm
 
 A port of https://github.com/btholt/complete-intro-to-react to Elm
 
