@@ -7,6 +7,7 @@ import Navigation exposing (Location, newUrl)
 import UrlParser exposing ((</>), s, int, string, parsePath)
 import Types exposing (..)
 import Data
+import Http
 import Decoder exposing (decodeMovies)
 
 
@@ -31,6 +32,7 @@ type Msg
     = ChangePage Page
     | Navigate Page
     | SearchTerm String
+    | RatingFetched String (Result Http.Error String)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -39,11 +41,35 @@ update msg model =
         Navigate page ->
             ( model, newUrl <| pageToPath page )
 
+        ChangePage (Details id) ->
+            ( { model | page = Details id }, Http.send (RatingFetched id) <| Http.get ("http://www.omdbapi.com/?i=" ++ id) Decoder.ratingDecoder )
+
         ChangePage page ->
             ( { model | page = page }, Cmd.none )
 
         SearchTerm txt ->
             ( { model | searchTerm = txt }, Cmd.none )
+
+        RatingFetched id response ->
+            ( { model
+                | movies =
+                    (List.map
+                        (\movie ->
+                            if movie.id == id then
+                                { movie | rating = Just response }
+                            else
+                                movie
+                        )
+                        model.movies
+                    )
+              }
+            , Cmd.none
+            )
+
+
+movieById : String -> List Movie -> Maybe Movie
+movieById id movies =
+    List.filter (\movie -> movie.id == id) movies |> List.head
 
 
 view : Model -> Html Msg
@@ -57,7 +83,7 @@ view model =
                 search model
 
             Details id ->
-                details (List.filter (\movie -> movie.id == id) model.movies |> List.head)
+                details (movieById id model.movies)
         ]
 
 
@@ -139,7 +165,7 @@ details movie =
             div [] []
 
 
-ratingView : Maybe (Result String String) -> Html Msg
+ratingView : Maybe (Result Http.Error String) -> Html Msg
 ratingView rating =
     case rating of
         Just rating ->
@@ -148,7 +174,7 @@ ratingView rating =
                     h3 [] [ text value ]
 
                 Err error ->
-                    div [] [ text error ]
+                    div [] [ text (toString error) ]
 
         Nothing ->
             img [ src "/public/img/loading.png" ] []

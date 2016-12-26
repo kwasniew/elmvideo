@@ -10,3 +10,6 @@ elm test
 # Lessons learned
 
 Write good and bad parts
+
+TODO: test for rating decoder
+replace id string with a type

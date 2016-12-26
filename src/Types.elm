@@ -1,5 +1,7 @@
 module Types exposing (..)
 
+import Http
+
 
 type alias Model =
     { page : Page
@@ -15,7 +17,7 @@ type alias Movie =
     , poster : String
     , id : String
     , trailer : String
-    , rating : Maybe (Result String String)
+    , rating : Maybe (Result Http.Error String)
     }
 
 
