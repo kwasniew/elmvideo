@@ -14,7 +14,7 @@ Compared to React:
 :smile: one language instead of JS with JSX inside with more JS inside  
 :smile: new syntax is easy to learn (probably it takes less time than to learn new features from ES6)  
 :smile: pure stateless functions instead of classes/components with lifecycle hooks  
-:smile: function variables instead of props  
+:smile: function arguments instead of props  
 :smile: thisless programming enforced, not just encouraged  
 :smile: elm-format on save removes unnecessary decisions about formatting  
 :smile: once it compiles it usually works as expected  
