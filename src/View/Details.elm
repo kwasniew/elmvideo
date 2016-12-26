@@ -14,10 +14,8 @@ details movie =
         Just movie ->
             div [ class "details" ]
                 [ header []
-                    [ header []
-                        [ elmvideo
-                        , h2 [ onClick (Navigate Search) ] [ text "Back" ]
-                        ]
+                    [ elmvideo
+                    , h2 [ onClick (Navigate Search) ] [ text "Back" ]
                     ]
                 , section []
                     [ h1 [] [ text movie.title ]
@@ -52,4 +50,4 @@ ratingView rating =
                     div [] [ text (toString error) ]
 
         Nothing ->
-            img [ src "/public/img/loading.png" ] []
+            img [ src "/public/img/loading.png", alt "loading indicator" ] []
