@@ -34,6 +34,6 @@ Compared to React:
 Overall impression:  
 Very positive. Once Elm has some aspect of building web apps covered it's usually done in a very elegant way
 and it encourages you to do the right thing.
-It looks like you can achieve Elm like experience with some good habits + React/Redux/ImmutableJS/TypeScript + some tooling
+It looks like you can achieve Elm like experience with discipline + React/Redux/ImmutableJS/TypeScript + some tooling
 but Elm gives you everything in a package that just works and forces you to do the right thing. Really looking forward to server side rendering
 as it's my only concern right now.
